@@ -1,7 +1,7 @@
 
 const methods = () => {
     console.log("hi goutham");
-    return "http://localhost:4000";
+    return "https://mini-six-brown.vercel.app/";
 }
 
 

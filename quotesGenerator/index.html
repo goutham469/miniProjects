@@ -83,8 +83,8 @@
             <h3>API services</h3>
             <p>API service available for developers</p>
             <p>Free and paid services</p>
-            <a href="http://localhost:4000/quotes/apiServices" class="hyperlink1">click here to know about pricing</a>
-            <a class="hyperlink1" href="http://localhost:4000/quotes/apiServices" >documentation</a>
+            <a href="https://mini-six-brown.vercel.app/quotes/apiServices" class="hyperlink1">click here to know about pricing</a>
+            <a class="hyperlink1" href="https://mini-six-brown.vercel.app/quotes/apiServices" >documentation</a>
         </div>
         <div class="footerChild">
             <h3>About the developer</h3>
@@ -102,7 +102,7 @@
             <a class="hyperlink1" href="https://www.linkedin.com/in/goutham-reddy-279782283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"> linkedIn</a>
             <br/>
             <a class="hyperlink1" href="https://www.instagram.com/go.utham8129?igsh=MTFpM3Q5eHhoMHpjMQ==">Instagram</a>
-            <a class="hyperlink1" href="http://localhost:4000/getResume">my resume</a>
+            <a class="hyperlink1" href="https://mini-six-brown.vercel.app/getResume">my resume</a>
         </div>
         <div class="footerChild">
             <h3>Legal</h3>
@@ -118,7 +118,7 @@
         {
             event.preventDefault();
 
-            let data = await fetch(`http://localhost:4000/quotes/getRandomQuote`)
+            let data = await fetch(`https://mini-six-brown.vercel.app/quotes/getRandomQuote`)
             data = await data.json()
             console.log(data);
             document.querySelector('.quote').innerHTML = data[1];
@@ -126,7 +126,7 @@
         }
         async function generateNewQuote2()
         {
-            let data = await fetch(`http://localhost:4000/quotes/getRandomQuote`)
+            let data = await fetch(`https://mini-six-brown.vercel.app/quotes/getRandomQuote`)
             data = await data.json()
             console.log(data);
             document.querySelector('.quote').innerHTML = data[1];
