@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text to Speech Converter</title>
+  <style>
+    body{
+        background-color: black;
+        color: white;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+    .textInput{
+        width: 400px;
+        height: 300px;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: rgb(29, 29, 29);
+        color: white;
+    }
+    select{
+        margin-left: 30px;
+        width: 300px;
+        height: 40px;
+        border-radius: 10px;
+        color: rgb(0, 0, 0);
+    }
+    button{
+        background-color: black;
+        border-radius: 5px;
+        padding: 5px;
+        border: 1px solid white;
+        color: white;
+        margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Text to Speech Converter</h1>
+  <div style="display: flex;flex-wrap: wrap;align-items: center;justify-content: center;">
+    <div style="background-color: rgb(47, 44, 44);padding: 20px;border-radius: 10px;">
+      <form>
+        <textarea class="textInput" id="text" placeholder="Enter the text to be converted ..."></textarea>
+        <br/>
+        <div class="row">
+          <select id="voiceSelect"></select>
+          <br/>
+          <br/>
+          <button type="button" id="play">Listen</button>
+          <button type="button" id="stop" disabled>Stop</button>
+          <button type="button" id="download" disabled>Download</button>
+          <input type="range" id="seekbar" min="0" value="0" disabled>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    if (window.speechSynthesis) {
+      let speech = new SpeechSynthesisUtterance();
+      let voices = [];
+      let voiceSelect = document.getElementById("voiceSelect");
+      let isPlaying = false;
+      let audioContext = new AudioContext();
+      let mediaRecorder;
+      let chunks = [];
+
+      window.speechSynthesis.onvoiceschanged = () => {
+        voices = window.speechSynthesis.getVoices();
+        speech.voice = voices[0];
+
+        voices.forEach((voice, i) => {
+          let option = new Option(voice.name, i);
+          voiceSelect.options.add(option);
+        });
+      };
+
+      voiceSelect.addEventListener("change", () => {
+        speech.voice = voices[voiceSelect.value];
+      });
+
+      const playButton = document.getElementById("play");
+      const stopButton = document.getElementById("stop");
+      const downloadButton = document.getElementById("download");
+      const seekbar = document.getElementById("seekbar");
+
+      playButton.addEventListener("click", () => {
+        if (!isPlaying) {
+          speech.text = document.getElementById("text").value;
+          if (!speech.text) {
+            alert("Please enter some text.");
+            return;
+          }
+
+          window.speechSynthesis.speak(speech);
+          isPlaying = true;
+          playButton.textContent = "Pause";
+          stopButton.disabled = false;
+          seekbar.disabled = false;
+
+          // Start recording
+          let dest = audioContext.createMediaStreamDestination();
+          let source = audioContext.createMediaElementSource(new Audio());
+          source.connect(dest);
+          source.connect(audioContext.destination);
+          mediaRecorder = new MediaRecorder(dest.stream);
+          mediaRecorder.start();
+
+          mediaRecorder.ondataavailable = function(e) {
+            chunks.push(e.data);
+          };
+
+          mediaRecorder.onstop = function() {
+            let blob = new Blob(chunks, { 'type' : 'audio/mp3' });
+            chunks = [];
+            let audioURL = window.URL.createObjectURL(blob);
+            downloadButton.href = audioURL;
+            downloadButton.download = 'speech.mp3';
+            downloadButton.disabled = false;
+          };
+        } else {
+          if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+            playButton.textContent = "Pause";
+          } else {
+            window.speechSynthesis.pause();
+            playButton.textContent = "Play";
+          }
+        }
+      });
+
+      stopButton.addEventListener("click", () => {
+        window.speechSynthesis.cancel();
+        isPlaying = false;
+        playButton.textContent = "Listen";
+        stopButton.disabled = true;
+        seekbar.disabled = true;
+        seekbar.value = 0;
+
+        // Stop recording
+        mediaRecorder.stop();
+      });
+
+      speech.onend = () => {
+        isPlaying = false;
+        playButton.textContent = "Listen";
+        stopButton.disabled = true;
+        seekbar.disabled = true;
+        seekbar.value = 0;
+
+        // Stop recording
+        mediaRecorder.stop();
+      };
+
+      seekbar.addEventListener("input", () => {
+        // Seek functionality not yet implemented
+        alert("Seek functionality not yet implemented!");
+      });
+    } else {
+      alert("Your browser doesn't support Text-to-Speech functionality.");
+    }
+  </script>
+</body>
+</html>

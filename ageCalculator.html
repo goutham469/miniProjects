@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+</head>
+<body style="background-color: black;color: white;">
+    <div style="display: flex;justify-content: space-around;align-items: center;">
+        <div style="margin-top: 50px;border: 1px solid black;padding: 20px;border-radius: 10px;background-color: rgb(55, 55, 55);">
+            <center><h3 style="color: red;">Age Calculaor</h3></center>
+            <form>
+                <p>enter your date of birth</p>
+                <input class="dateInput" type="date"/>
+                <button onclick="calculateAge(event)">Calculate</button>
+            </form>
+            <br/>
+            <p class="calculatedAge">you have not entered you date of birth</p>
+            <p style="font-size: 11px; margin-left: 20px;"> note :</p>
+            <p style="font-size: 11px;">1. Your DoB is calculated on linux based time stamp</p>
+            <p style="font-size: 11px;">2. In which 30 days is considered for any month.</p>
+        </div>
+    </div>
+    <script>
+        function calculateAge(event)
+        {
+            event.preventDefault();
+            let doB = document.querySelector('.dateInput').value;
+            doB = doB.split('-')
+            console.log(doB)
+            let cur_date = new Date();
+            current_date = `${cur_date.getFullYear()}-${cur_date.getMonth()}-${cur_date.getDate()}`
+            current_date = current_date.split('-')
+            console.log(`current date = ${current_date}`)
+
+            if(doB.length != 1)
+            {
+                let t1 = Number(doB[0])*365 + Number(doB[1])*30 + Number(doB[2]);
+                let t2 = Number(current_date[0])*365 + Number(current_date[1])*30 + Number(current_date[2]);
+
+                t1 = t2-t1;
+
+                let years = (String(t1/365).split('.')[0]);
+                let months = (t1%365);
+                let days = (t1%365)%30;
+
+                console.log(years,months,days);
+                document.querySelector('.calculatedAge').innerHTML = `you are ${years} years, ${months} months, ${days} days old !`
+            }
+            else
+            {
+                document.querySelector('.calculatedAge').innerHTML = "choose your date of birth";
+            }
+
+            
+
+        }
+    </script>
+</body>
+</html>

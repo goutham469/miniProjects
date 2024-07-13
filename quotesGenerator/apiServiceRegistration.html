@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label>API key and you password will be sent to your email</label>
+        <br/>
+        <p class="errorMessage" style="color: red;"></p>
+        <input type="email" required class="emailInput" placeholder="something@yahoo.com"/>
+        <br/>
+        <button onclick="register(event)">Register</button>
+        <p>your account will be suspended for 24 hours , if you exceed you limit.</p>
+    </form>
+    <script>
+        async function register(event)
+        {
+            event.preventDefault();
+            let userName = document.querySelector('.emailInput').value;
+            console.log(userName);
+            // let data = await fetch('http://localhost:4000/quotes/')
+            alert("thanks for coming till here, but current the site is under development");
+            document.querySelector('.errorMessage').innerHTML = `link :  http://localhost:4000/quotes/getRandomQuote`
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote generator</title>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        .parent{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+        .child{
+            margin-top: 50px;
+            width: 300px;
+            background-color: rgb(34, 34, 34);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .newQuoteButton{
+            font-size: 14px;
+            border: 1px solid gold;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: rgb(0, 0, 0);
+            color: white;
+        }
+        .newQuoteButton:hover{
+            background-color: black;
+            border: 1px solid white;
+            color: gold;
+        }
+        .quote{
+            background-color: rgb(24, 24, 24);
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .author{
+            color: red;
+
+        }
+        .footer{
+            display: flex;
+            align-items: center;
+            justify-content:space-around;
+            flex-wrap: wrap;
+        }
+        .footerChild{
+            background-color: rgb(9, 19, 9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            height: 200px;
+            margin: 10px;
+        }
+        .hyperlink1{
+            text-decoration: none;
+            color: gold;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="child">
+            <center>
+                <h3 style="color: rgb(68, 181, 7);">Quote of the day</h3>
+            </center>
+            <p class="quote"></p>
+            <p class="author"></p>
+            <center>
+                <button class="newQuoteButton" onclick="generateNewQuote(event)">+ Quote</button>
+            </center>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footerChild">
+            <h3>API services</h3>
+            <p>API service available for developers</p>
+            <p>Free and paid services</p>
+            <a href="http://localhost:4000/quotes/apiServices" class="hyperlink1">click here to know about pricing</a>
+            <a class="hyperlink1" href="http://localhost:4000/quotes/apiServices" >documentation</a>
+        </div>
+        <div class="footerChild">
+            <h3>About the developer</h3>
+            <p>Developer Details</p>
+            <p>Goutham reddy uppunuri</p>
+            <p>IT-C , VNR VJIET <sub>-2026</sub></p>
+            <p>Full stack web developer, ML Deveveloper</p>
+        </div>
+        <div class="footerChild">
+            <h3>Contact me</h3>
+            <label class="hyperlink1">&#9743; : +91 93981 41936</label>
+            <br/>
+            <a class="hyperlink1" href="mailto:uppinurigouthamreddy@gmail.com">&#9993; : email</a>
+            <br/>
+            <a class="hyperlink1" href="https://www.linkedin.com/in/goutham-reddy-279782283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"> linkedIn</a>
+            <br/>
+            <a class="hyperlink1" href="https://www.instagram.com/go.utham8129?igsh=MTFpM3Q5eHhoMHpjMQ==">Instagram</a>
+            <a class="hyperlink1" href="http://localhost:4000/getResume">my resume</a>
+        </div>
+        <div class="footerChild">
+            <h3>Legal</h3>
+            <a class="hyperlink1" href="">privacy</a>
+            <br/>
+            <br/>
+            <a class="hyperlink1" >&copy; goutham reddy</a>
+        </div>
+    </div>
+    <script>
+
+        async function generateNewQuote(event)
+        {
+            event.preventDefault();
+
+            let data = await fetch(`http://localhost:4000/quotes/getRandomQuote`)
+            data = await data.json()
+            console.log(data);
+            document.querySelector('.quote').innerHTML = data[1];
+            document.querySelector('.author').innerHTML = data[2];
+        }
+        async function generateNewQuote2()
+        {
+            let data = await fetch(`http://localhost:4000/quotes/getRandomQuote`)
+            data = await data.json()
+            console.log(data);
+            document.querySelector('.quote').innerHTML = data[1];
+            document.querySelector('.author').innerHTML = data[2];
+        }
+        generateNewQuote2();
+    </script>
+</body>
+</html>
